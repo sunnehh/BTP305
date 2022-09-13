@@ -1,0 +1,26 @@
+Rule of 3:
+when creating a class with a managed resource that requires a custom destructor, copy constructor or assignment operator, we must implement all 3.
+This is because when using a managed resource, the default copy and assignment will make shallow copies and when the destructor is called, it will cause a runtime error since the shallow copy's resource is freed.
+
+The assignment operator is used when populating the array of Carads
+	ie. our overloading >> operator just calls car2 = car1
+		thus, currentCar >> recordedCarsOnAds[allCars++]; is saying
+		recordedCarsOnAds[some_index] = someCar
+
+In our assignment, the copy constructor isn't called, but would be used if we wanted to create a new Car object from an existing Car object
+	ie. Car carCopy = car1;
+
+A custom destructor is required to free up the dynamically allocated memory used for the car's make and model to prevent memory leaks.
+
+Internal vs External linkage:
+	Internal linkage means that a definition must be found within the module
+		ie. the linker must find the definition of a declaration within the current file
+	External linkage means that a definition must be found within the project
+		ie. the linker can find the definition of a declaration within any file included in the project
+
+	the keyword static forces a variable to be internally linked - useful to keep track of the number of times a function was called without giving access to that variable outside of the module if the name is somehow known.
+
+Changes from part 1 to part 2:
+	memory is dynamically allocated to store make and model of the car -> a custom destructor was required.
+	since a custom destructor was required, I implemented the rule of 3.
+	most of the required functionality was achieved by just calling functions implemented from the rule of 3 or previously implemented functions.

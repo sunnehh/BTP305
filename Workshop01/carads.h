@@ -1,3 +1,9 @@
+// Workshop 1
+// Sunny Qi
+// 136570207
+// sqi9@myseneca.ca
+// Completed: 2022-09-13
+
 #ifndef SDDS_CARADS_H
 #define SDDS_CARADS_H
 #include <iostream>
@@ -20,11 +26,11 @@ namespace sdds {
 		// copy and assignment
 		Cars(const Cars& src);
 		Cars& operator=(const Cars& src);
-		friend ostream& operator<<(ostream& os, const Cars& src);
-
 		int read(std::istream& is);
-		int display(bool reset);
-		char getStatus();
+		int display(bool reset) const;
+		char getStatus() const;
+		operator bool() const;
+
 	private:
 		char* m_make;
 		int m_makelen;
@@ -35,6 +41,9 @@ namespace sdds {
 		char m_condition;
 		bool m_discount;
 	};
+	//ostream& operator<<(ostream& os, const Cars& src);
+	std::istream& operator>> (std::istream& is, Cars& car);
+	void operator >> (const Cars& car1, Cars& car2);
 }
 
 
