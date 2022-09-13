@@ -15,9 +15,7 @@ namespace sdds {
 			cout << i << ": " << argv[i] << endl;
 		}
 		cout << "--------------------------" << endl;
-	}
-
-	int counter = 0;
+	};
 
 	Cars::Cars() {
 		m_make = nullptr;
@@ -45,7 +43,9 @@ namespace sdds {
 
 	Cars::~Cars() {
 		delete[] m_make;
+		m_make = nullptr;
 		delete[] m_model;
+		m_make = nullptr;
 	}
 
 	Cars::Cars(const Cars& src) {
@@ -77,15 +77,17 @@ namespace sdds {
 	Cars& Cars::operator=(const Cars& rhs) {
 		if (&rhs != this)
 		{
-			if (this->m_make != nullptr)
+			if (this->m_makelen > 0)
 			{
 				delete[] this->m_make;
 				this->m_make = nullptr;
+				this->m_makelen = 0;
 			}
-			if (this->m_model != nullptr)
+			if (this->m_modellen > 0)
 			{
 				delete[] this->m_model;
 				this->m_model = nullptr;
+				this->m_modellen = 0;
 			}
 			this->m_makelen = rhs.m_makelen;
 			this->m_make = new char[m_makelen];
@@ -141,11 +143,18 @@ namespace sdds {
 			this->m_discount = discount.c_str()[0];
 			return 1;
 		}
+		else
+		{
+			return 0;
+		}
 	};
 
 
 
+
+
 	int Cars::display(bool reset) {
+		static int counter = 0;
 		if (m_price != -1)
 		{
 			if (reset)
@@ -153,15 +162,15 @@ namespace sdds {
 				counter = 0;
 			}
 			counter++;
-			cout << setw(2) << left << counter << '. ';
-			cout << setw(10) << left << m_make << '| '
-				<< setw(15) << left << m_model << '| '
-				<< m_year << '| '
-				<< setw(12) << fixed << setprecision(2) << right << (m_price * g_taxrate) + m_price;
+			cout << setw(2) << left << counter << ". ";
+			cout << setw(10) << left << m_make << "| "
+				<< setw(10) << left << m_model << "| "
+				<< m_year << " | "
+				<< setw(11) << fixed << setprecision(2) << right << (m_price * g_taxrate) + m_price << "| ";
 			if (m_discount)
 			{
 				double off_ticket = (m_price * g_discount);
-				cout << setw(12) << right << ((m_price - off_ticket) * g_taxrate) + (m_price - off_ticket) << endl;
+				cout << setw(11) << right << ((m_price - off_ticket) * g_taxrate) + (m_price - off_ticket) << endl;
 			}
 			else
 			{

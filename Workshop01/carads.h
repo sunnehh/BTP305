@@ -20,7 +20,6 @@ namespace sdds {
 		// copy and assignment
 		Cars(const Cars& src);
 		Cars& operator=(const Cars& src);
-		friend ostream& operator<<(ostream& os, const Cars& src);
 
 		int read(std::istream& is);
 		int display(bool reset);
@@ -35,6 +34,7 @@ namespace sdds {
 		char m_condition;
 		bool m_discount;
 	};
+	//ostream& operator<<(ostream& os, const Cars& src);
 }
 
 
