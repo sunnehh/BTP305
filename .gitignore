@@ -4,3 +4,6 @@
 temp/
 Originals/
 *.opendb
+x64/
+.vs/
+Debug/
