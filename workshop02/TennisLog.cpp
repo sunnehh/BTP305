@@ -70,7 +70,8 @@ namespace sdds {
 		ifstream in(filename);
 		if (in.is_open() == false)
 		{
-			TennisLog();
+			this->m_matches = nullptr;
+			this->m_num_matches = 0;
 			cout << "cannot open file " << filename << endl;
 			return;
 		}
