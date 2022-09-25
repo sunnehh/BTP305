@@ -1,6 +1,3 @@
-*.log
-*.tlog
-*.tlog/
-temp/
-Originals/
-*.opendb
+.vs/
+Debug/
+x64/
