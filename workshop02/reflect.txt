@@ -1,0 +1,42 @@
+Difficulties:
+	The lab was pretty straight forward, While doing part 1, I realized that the TennisLog would make use of a dynamically managed resource which required a custom destructor,
+	Thus, I immediately implemented the Rule of 5 in part 1, which made part 2 trivial.
+
+	I corrected the mistake I made in Workshop01 in this workshop as I now have a clearer understanding of when the constructor vs assignment operator is called.
+	In Workshop01 I tried to free memory in the constructor which was redundant since a new object is being constructed and wouldn't have any memory allocated previously, so freeing that memory was not needed.
+
+Reason between time difference in Copy vs Move:
+	When copying, we make a deep copy of each dynamically allocated resource in the object.
+		ie. if Log1 has 15 matches and copied to Log2, Log2 would need to create 15 new matches and copy each one
+	When moving, we "steal" the target's resource for our own, essentially using a shallow copy
+		ie. if Log1 has 15 matches and moved to Log2, Log2 would set its m_matches to Log1's m_matches and set Log1's m_matches to nullptr, effectively "stealing" or moving that resource.
+	Moving has significantly less CPU cycles since we aren't creating a bunch of new objects but rather reassigning the pointers for existing ones.
+
+Approach taken to read the file
+	The assignment asked us to do it in the format of:
+	1. read the entire file to count the lines
+	2. dynamically allocate that much space
+	3. reread the file to assign values to the new objects
+
+	We can do this without rereading the file by:
+	1. make a variable to store the current line
+	2. create an Array of Matches of arbitrary size (say 100)
+	3. process the current line
+		3.1. check if the current array of matches has an empty element for the line
+			if yes: populate that element
+			if no: create a new array of size + some arbitrary number (say 20) and copy over all the old array's elements
+			populate the next empty element
+	4. repeat until getline cannot find any more lines
+
+	I'm not sure if there's a better method than what I came up with - both ways seem to have advantages and disadvantages - If there is indeed a better way I'd love to learn about it.
+
+steady clock vs system clock
+
+	Steady clock:
+		This clock is monotonic, ie the flow of time does not affect this clock.
+		The ticks between each tick of this clock are consistent
+	System clock:
+		This is a clock that takes the system's time.
+		This clock may not be monotonic since most systems allow the time to be changed whenever the user decides.
+
+	The Steady clock is best for calculating intervals while the System clock is the only clock that can map timeinterval in C-style time.
