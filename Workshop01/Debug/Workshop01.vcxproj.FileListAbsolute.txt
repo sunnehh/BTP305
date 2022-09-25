@@ -1,3 +1,2 @@
 C:\Users\Sunny\Desktop\Seneca\Sem5\BTP305\Workshop01\Debug\Workshop01.exe
-C:\Users\Sunny\Desktop\Seneca\Sem5\BTP305\Workshop01\Debug\Workshop01.pdb
 C:\Workspace\Seneca\BTP305 - C++\Labs\BTP305\Workshop01\Debug\Workshop01.exe

@@ -1,3 +1,9 @@
+// Workshop 1
+// Sunny Qi
+// 136570207
+// sqi9@myseneca.ca
+// Completed: 2022-09-13
+
 #define _CRT_SECURE_NO_WARNINGS
 #include <iomanip>
 #include <cstring>
@@ -12,9 +18,9 @@ namespace sdds {
 		cout << "Command Line:" << endl;
 		cout << "--------------------------" << endl;
 		for (int i = 0; i < argc; ++i) {
-			cout << i << ": " << argv[i] << endl;
+			cout << setw(3) << right << i+1 << ": " << argv[i] << endl;
 		}
-		cout << "--------------------------" << endl;
+		cout << "--------------------------" << endl << endl;
 	};
 
 	Cars::Cars() {
@@ -30,10 +36,10 @@ namespace sdds {
 
 	Cars::Cars(std::string make, std::string model, int year, double price, char condition, bool discount) {
 		this->m_makelen = make.length();
-		this->m_make = new char[make.length()];
+		this->m_make = new char[make.length() + 1];
 		strcpy(this->m_make, make.c_str());
 		this->m_modellen = model.length();
-		this->m_model = new char[model.length()];
+		this->m_model = new char[model.length() + 1];
 		strcpy(this->m_model, model.c_str());
 		this->m_year = year;
 		this->m_price = price;
@@ -42,64 +48,48 @@ namespace sdds {
 	}
 
 	Cars::~Cars() {
-		delete[] m_make;
-		m_make = nullptr;
-		delete[] m_model;
-		m_make = nullptr;
+		if (this->m_make != nullptr)
+		{
+			delete[] m_make;
+			m_make = nullptr;
+		}
+		if (m_model != nullptr)
+		{
+			delete[] m_model;
+			m_model = nullptr;
+		}
+
 	}
 
 	Cars::Cars(const Cars& src) {
-		if (&src != this)
-		{
-			if (this->m_make != nullptr)
-			{
-				delete[] this->m_make;
-				this->m_make = nullptr;
-			}
-			if (this->m_model != nullptr)
-			{
-				delete[] this->m_model;
-				this->m_model = nullptr;
-			}
-			this->m_makelen = src.m_makelen;
-			this->m_make = new char[m_makelen];
-			strcpy(this->m_make, src.m_make);
-			this->m_modellen = src.m_modellen;
-			this->m_model = new char[m_modellen];
-			strcpy(this->m_model, src.m_model);
-			this->m_year = src.m_year;
-			this->m_price = src.m_price;
-			this->m_condition = src.m_condition;
-			this->m_discount = src.m_discount;
-		}
+
+		this->~Cars();
+		this->m_makelen = src.m_makelen;
+		this->m_make = new char[m_makelen + 1];
+		strcpy(this->m_make, src.m_make);
+		this->m_modellen = src.m_modellen;
+		this->m_model = new char[m_modellen + 1];
+		strcpy(this->m_model, src.m_model);
+		this->m_year = src.m_year;
+		this->m_price = src.m_price;
+		this->m_condition = src.m_condition;
+		this->m_discount = src.m_discount;
 	}
 
 	Cars& Cars::operator=(const Cars& rhs) {
-		if (&rhs != this)
-		{
-			if (this->m_makelen > 0)
-			{
-				delete[] this->m_make;
-				this->m_make = nullptr;
-				this->m_makelen = 0;
-			}
-			if (this->m_modellen > 0)
-			{
-				delete[] this->m_model;
-				this->m_model = nullptr;
-				this->m_modellen = 0;
-			}
-			this->m_makelen = rhs.m_makelen;
-			this->m_make = new char[m_makelen];
-			strcpy(this->m_make, rhs.m_make);
-			this->m_modellen = rhs.m_modellen;
-			this->m_model = new char[m_modellen];
-			strcpy(this->m_model, rhs.m_model);
-			this->m_year = rhs.m_year;
-			this->m_price = rhs.m_price;
-			this->m_condition = rhs.m_condition;
-			this->m_discount = rhs.m_discount;
-		}
+
+		this->~Cars();
+		this->m_makelen = rhs.m_makelen;
+		this->m_make = new char[m_makelen + 1];
+		strcpy(this->m_make, rhs.m_make);
+		this->m_modellen = rhs.m_modellen;
+		this->m_model = new char[m_modellen + 1];
+		strcpy(this->m_model, rhs.m_model);
+		this->m_year = rhs.m_year;
+		this->m_price = rhs.m_price;
+		this->m_condition = rhs.m_condition;
+		this->m_discount = rhs.m_discount;
+
 		return *this;
 	}
 
@@ -110,10 +100,9 @@ namespace sdds {
 		string model;
 		string year;
 		string price;
-		string discount;
+		char discount;
 
 		if (is.good()) {
-			// read the line
 			string line = "";
 			getline(is, line, ',');
 			condition = line.c_str()[0];
@@ -121,26 +110,27 @@ namespace sdds {
 			getline(is, model, ',');
 			getline(is, year, ',');
 			getline(is, price, ',');
-			getline(is, discount, '\n');
-
-			if (this->m_make != nullptr)
-			{
-				delete[] this->m_make;
-			}
-			if (this->m_model != nullptr)
-			{
-				delete[] this->m_model;
-			}
+			getline(is, line, '\n');
+			discount = line.c_str()[0];
 			this->m_condition = condition;
 			this->m_makelen = make.length();
-			this->m_make = new char[m_makelen];
+			delete[] this->m_make;
+			this->m_make = new char[m_makelen + 1];
 			strcpy(this->m_make, make.c_str());
 			this->m_modellen = model.length();
-			this->m_model = new char[m_modellen];
+			delete[] this->m_model;
+			this->m_model = new char[m_modellen + 1];
 			strcpy(this->m_model, model.c_str());
 			this->m_year = atoi(year.c_str());
 			this->m_price = atof(price.c_str());
-			this->m_discount = discount.c_str()[0];
+			if (discount == 'Y')
+			{
+				this->m_discount = true;
+			}
+			else
+			{
+				this->m_discount = false;
+			}
 			return 1;
 		}
 		else
@@ -150,12 +140,9 @@ namespace sdds {
 	};
 
 
-
-
-
-	int Cars::display(bool reset) {
+	int Cars::display(bool reset) const{
 		static int counter = 0;
-		if (m_price != -1)
+		if (m_price > 0)
 		{
 			if (reset)
 			{
@@ -164,9 +151,9 @@ namespace sdds {
 			counter++;
 			cout << setw(2) << left << counter << ". ";
 			cout << setw(10) << left << m_make << "| "
-				<< setw(10) << left << m_model << "| "
+				<< setw(15) << left << m_model << "| "
 				<< m_year << " | "
-				<< setw(11) << fixed << setprecision(2) << right << (m_price * g_taxrate) + m_price << "| ";
+				<< setw(11) << fixed << setprecision(2) << right << (m_price * g_taxrate) + m_price << "|";
 			if (m_discount)
 			{
 				double off_ticket = (m_price * g_discount);
@@ -185,7 +172,24 @@ namespace sdds {
 		}
 	}
 
-	char Cars::getStatus() {
+	char Cars::getStatus() const{
 		return m_condition;
+	}
+
+	Cars::operator bool() const{
+		bool isnew = false;
+		if (this->getStatus() == 'N')
+		{
+			isnew = true;
+		}
+		return isnew;
+	}
+
+	std::istream& operator>> (std::istream& is, Cars& car) {
+		car.read(is);
+		return is;
+	}
+	void operator >> (const Cars& car1, Cars& car2) {
+		car2 = car1;
 	}
 }
