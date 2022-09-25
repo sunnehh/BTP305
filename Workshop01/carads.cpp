@@ -157,7 +157,7 @@ namespace sdds {
 			if (m_discount)
 			{
 				double off_ticket = (m_price * g_discount);
-				cout << setw(12) << right << ((m_price - off_ticket) * g_taxrate) + (m_price - off_ticket) << endl;
+				cout << setw(11) << right << ((m_price - off_ticket) * g_taxrate) + (m_price - off_ticket) << endl;
 			}
 			else
 			{
