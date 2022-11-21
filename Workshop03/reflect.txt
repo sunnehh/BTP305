@@ -1,0 +1,42 @@
+why the module isn't split into *.h and *.cpp
+	Template classes are written in the header file because the compiler creates a separate implementation of that class for each template argument.
+	The compiler needs access to the implementation of the methods to instantiate them - thus it is written inline in the header file.
+
+		ie. given:
+		template <typename T>
+		class foo{
+			T bar;
+			void stuff(T myparams)
+		}
+
+		foo<int> a;
+
+		the compiler will instantiate a new class:
+		class fooint{
+			int bar;
+			void stuff (int params)
+		}
+
+		and will do so for each of the template arguments
+
+members added to Dictionary
+	Default constructor - because we create an empty array of Dictionary[size], they need to be initialized to some safe state. The default constructor does this.
+	std::ostream& display(std::ostream& os) const; - a display method for formatting the output
+	friend std::ostream& operator<<(std::ostream& os, const Dictionary& dictionary); - for allowing the insertion operator. just calls the display method
+	copy/assignment operators to assign an item to an array index
+	destructor to complete the rule of 3 (did not complete rule of 5 since i'm not managing memory and it seemed very trivial. even the destructor is blank)
+	friend bool operator==(const Dictionary& lhs, const Dictionary& rhs); - this was the tricky part, I really didn't want to implement this thinking i could use pointers but with the requirement of having a dummy static member be returned i think this was necessary. Especially in part 2 where the dummy variable had to be specially set to have specific output.
+
+	
+Reason for specializing push()
+	Since we wanted numbers within 0.005 to be considered the same, a specialization was needed since the specific case of double acted differently from the other cases (where we cared about equality instead of closeness)
+
+reason for defining the class variable outside of the class definition
+	Since we wanted a generic class member to be returned when the user wanted an object outside of the queue, the compiler needs to know about it during compile time to allocate the correct amount of memory. The static keyword achieves this and we declare it within the class.
+	We must define this variable outside of the class to avoid multiple definitions.
+
+Troubles i ran into
+	double abs(double arg) performs differently on windows and matrix resulting in my program running corrrectly locally but not on matrix
+		windows: the function returns a double in the decimal precision of the arg
+		matrix: the function returns a double with no decimal (the floor of the double)
+	to get around this, double fabs(double arg) performs on matrix similarly to windows

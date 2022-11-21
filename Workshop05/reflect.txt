@@ -1,0 +1,22 @@
+Difference between functor and lambda:
+	Functors are classes which have an overloaded operator which allows them to be called like a function.
+		They can contain members as well as have instances.
+		Since any class's () operator can be overloaded, a Functor can be used when we want an object to have the capability to be called like a function.
+	a Lambda is a pointer which resolves to a function, it can be named or anonymous.
+		Lambdas are good for a quick helper which is used in-scope where similar functionality is needed.
+		Lambdas are very compact and fast to write. It is probably better to use these when something as robust as a whole module isn't needed for the functionality you're trying to get.
+Our SpellChecker can throw an exception.
+	This is caused when the file for the spellchecker fails to open. Of course we can remove ability to throw exceptions by just putting the whole thing in an if-statement, having the program do nothing in the case where a file is failed to be read.
+	We can output something to the console as well to notify the user.
+	The issue with doing this may be if the user isn't crystal clear as to why their program may be failing - or really paying attention, they may fail to see why the spellchecker isn't working.
+	A message in a sea of console messages is much harder to see than the program halting due to an unhanded exception. The way with exceptions is much more elegant, since if we expect it, we can handle it. If we don't expect it, then it must be fixed and we get a clearer starting point as to where to look when fixing the issue.
+Movie and Book
+	I would create a parent class, maybe media?
+	Write a constructor in media and have Movie and Book be children of media. They would then be able to use the parent constructor and we can avoid writing the same thing twice.
+	Both of these classes have a default constructor. Although we're not dynamically allocating memory with these classes, using the C default default constructor may give unexpected results since in the program, I use the member title() to check if the library element is populated or not. ie, if title is "", then it is an empty element. Using the default default constructor may not create the object with members in the format i need so it may cause issues down the road.
+
+ Troubles I ran in to
+ 	I really enjoyed this lab. Although it was quite long, there were many new and useful concepts we came across.
+ 	I especially enjoy Functors and function pointers.
+ 	The biggest thing i took away from this workshop was having more practice reading compiler errors and being able to quickly find where the linker is mad at me.
+	I created a helper module with my trim function to avoid rewriting the exact same thing twice in Book and Movie. The compiler wouldn't read it so I copied the same code twice.

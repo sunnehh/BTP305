@@ -1,0 +1,23 @@
+list all the STL functions that you have used in this workshop; explain your reasoning for choosing each one, and not another.
+	std::vector as my collection of choice
+		I originally decided to use a std::list since we wouldn't have a need of accessing random value at a specific index and only ever needing to push to the back while still requiring the collection to be ordered.
+		I then switched to std::vector since using std::list::sort was giving output different than the project requirements. It was also performing differently on windows vs matrix.
+		An std::vector for this use-case will have similar performance - however, we aren't using the advantages vector has over a list in this case.
+	std::sort
+		using std::sort with a custom comparison function passed in through lambda expression
+
+present the advantages of using STL algorithms vs. implementing the functionality by yourself using loops.
+	advantages of STL:
+		1 - Much faster to use a STL implementation rather than building my own from scratch.
+		2 - The people who work on STL functions are very experienced developers who spend their full time optimizing the language. Their functions for the general use-case are probably much more efficient
+	disadvantages of STL:
+		1 - if I have a very specific/niche use-case that is not covered by the STL, I must write my own
+		2 - STL is intended to be used a certain way. if i have a use case that does not fit those requirements, it will not work
+
+the function that sorts the collection of crimes receives as a parameter the field name to use; this can create errors if the client specifies an invalid field (or misspells it). How would you redesign that function to prevent the client to specify an invalid string, allowing any error to be detected by the compiler?
+	Currently we take a string without error checking the input.
+	If we wanted to validity check, we could declare an array of valid inputs and check to see if the input is in that array of valid inputs. If it is, we will run our program as normal. If not, we will throw an error which is it be handled.
+
+Troubles I ran in to.
+this workshop was very straight forward. Quite simple if we understood the idea and use of iterators.
+the biggest issue I ran in to was that there were more than 1 collections that satisfy the requirements of the workshop - choosing the wrong one would provide a different output than the one in the auto marker, but still satisfying all of the requirements.

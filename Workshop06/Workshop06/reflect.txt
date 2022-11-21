@@ -1,0 +1,20 @@
+reflect:
+input checking
+	boost/electric
+
+
+Why do you need to deallocate the dynamically allocated memory in your vector?
+	In this workshop, we store a std::vector of pointers. We dynamically allocate memory and store the address of that memory we allocated.
+	Once the vector goes out of scope, it will delete the pointers to the memory addresses, but the memory is not freed
+
+When building an object from the input file, different things can go wrong: the record represents an unknown type of vehicle, or record contains invalid data. How can the function loadData() detect what went wrong? Can you think at another solution than the one you have implemented?
+	loadData() detects that there is an error by trying to create an instance. My createInstance function will throw an exception if one of: 'c', 'C', 'r', 'R', 'v', 'V', 'l', or 'L' is not found. Within the constructor of each vehicle. I test to see whether the fields are valid. If a field is invalid, the constructor will throw an exception. The loadData function will catch the exception and print the message to cerr.
+
+	Another way to do this is to just handle the exceptions within the functions that throw them.
+
+In this workshop you had to use std::list<sdds::Vehicle*> and std::vector<sdds::Vehicle*> to store a collection of vehicles as pointers. Could you have used std::list<sdds::Vehicle> and std::vector<sdds::Vehicle> instead? Justify your answer!
+	In this assignment, we could have used a list instead of a vector interchangeably. This is because we are not ever accessing a random index but instead iterate through the entire vector. In this use case, there is no difference between a vector and a list.
+
+Troubles I ran in to:
+	I ran in to issues at first by trying to modify the base class to handle different cases. After changing my approach, part 2 became much better.
+	I also had to rewrite tools I used for both children of Vehicle. Namely, my trim function as well as some checkers. If I were to improve this assignment, I would implement these helpers within Vehicle.c to avoid rewriting the same code.
