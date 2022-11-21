@@ -223,7 +223,7 @@ ws ad1.txt ad2.txt ad3.txt ad4.txt
 ```
 the output should look like the one from the `sample_output.txt` file. 
 
-**Note:** files `ad2.txt` and `ad4.txt` are missing on purpose.
+**Note:** files `ad1.txt` and `ad2.txt` are missing on purpose.
 
 
 ### Reflection

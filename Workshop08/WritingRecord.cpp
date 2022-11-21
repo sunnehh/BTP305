@@ -32,7 +32,8 @@ namespace sdds {
 			for (size_t j = 0; j < sal.size(); j++)
 			{
 				if (emp[i].id == sal[j].id) {
-					unique_ptr<EmployeeWage> newactiveemployee = make_unique<EmployeeWage>(EmployeeWage(emp[i].name, sal[j].salary));
+					//make_unique<EmployeeWage>(EmployeeWage(emp[i].name, sal[j].salary))
+					unique_ptr<EmployeeWage> newactiveemployee(new EmployeeWage(emp[i].name, sal[j].salary));
 					activeEmp += newactiveemployee;
 				}
 			}
