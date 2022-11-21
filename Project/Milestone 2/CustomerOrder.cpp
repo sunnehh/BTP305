@@ -12,6 +12,7 @@
 #include "CustomerOrder.h"
 #include "Utilities.h"
 
+
 using namespace std;
 namespace sdds {
 
@@ -26,32 +27,25 @@ namespace sdds {
 	}
 
 	CustomerOrder::CustomerOrder(const string& order) {
-		string name;
-		string product;
 		Utilities a;
 		size_t pos = 0;
 		m_maxsize = 1;
+		m_lstItem = new Item * [m_maxsize];
 		m_cntItem = 0;
 		bool more = true;
-		name = a.extractToken(order, pos, more);
-		product = a.extractToken(order, pos, more);
+		m_name = a.extractToken(order, pos, more);
+		m_product = a.extractToken(order, pos, more);
 		while (more)
 		{
 			string itemname;
 			itemname = a.extractToken(order, pos, more);
-			if (m_cntItem >= m_maxsize)
+			if (m_cntItem > m_maxsize-1)
 			{
 				resize();
-			}
-			else if (m_cntItem == 0)
-			{
-				m_lstItem = new Item*[m_maxsize];
 			}
 			m_lstItem[m_cntItem] = new Item(itemname);
 			m_cntItem++;
 		}
-		m_name = name;
-		m_product = product;
 		if (a.getFieldWidth() > m_widthField)
 		{
 			m_widthField = a.getFieldWidth();
@@ -84,6 +78,10 @@ namespace sdds {
 		if (this != &other)
 		{
 			// delete my current data;
+			for (size_t i = 0; i < m_cntItem; i++)
+			{
+				delete m_lstItem[i];
+			}
 			delete[] m_lstItem;
 			// steal other's data;
 			this->m_cntItem = move(other.m_cntItem);
@@ -101,7 +99,7 @@ namespace sdds {
 	}
 
 	void CustomerOrder::resize() {
-		size_t newmaxsize = (m_maxsize * 2) + 1;
+		size_t newmaxsize = (m_maxsize * 2);
 		Item** lstItem = new Item* [newmaxsize];
 		for (size_t i = 0; i < m_maxsize; i++)
 		{
@@ -188,10 +186,11 @@ namespace sdds {
 	}
 
 	CustomerOrder::~CustomerOrder() {
-		if (m_lstItem != nullptr)
+		for (size_t i = 0; i < m_cntItem; i++)
 		{
-			delete[] m_lstItem;
+			delete m_lstItem[i];
 		}
+		delete[] m_lstItem;
 	}
 }
 

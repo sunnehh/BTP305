@@ -3,8 +3,6 @@
 // ms2_prof.cpp
 // Winter 2021
 // Chris Szalwinski
-#define _CRTDBG_MAP_ALLOC
-#include <crtdbg.h>
 
 #include <iostream>
 #include <fstream>
@@ -183,7 +181,6 @@ int main(int argc, char** argv)
 		     << endl;
 	}
 
-	_CrtDumpMemoryLeaks();
 	return 0;
 }
 
