@@ -1,0 +1,12 @@
+how were binary files used in this workshop, describe the process of using them compared to non binary files
+	Using binary files in this workshop was a new experience. Instead of directly reading and processing the file to my object
+	I used the read/write method of i/ofstream. The difference here is that a size of how many bytes to read is passed in and it is interpreted as the variable i read it in to. 
+
+why would be important to bind a function to its arguments, and how was it useful in this workshop
+	binding a function to its parameters creates a sort of function pointer where you can fix certain parameters and change others. It was useful in this workshop to bind the parameters of digForTreasure to the packaged task which we pass to a thread.
+
+the advantages of using multiple threads, and how did you accomplished multi-threading in this workshop
+	The advantages of multiple threads means we can concurrently do a large task split between multiple threads at the same time. There is overhead involved and the performance gain is not linear with respect to the number of threads.
+	In a small task such as this workshop, it was definitely not worth using multithreading. It was specified that we must use packaged_tasks and futures - before implementing it this way, I tried directly modifying count with a lambda and passed that lambda to each thread and ended with the same result.
+futures and packaged_tasks were used in the workshop, describe their relationship to one another and how they were used with the threads
+	packaged_task differs from what a lambda can do because it can return a future object. A future is a variable which has not been resolved yet. packaged_task can be used to return a future. The program will continue until we try to access the data of that future. In time intensive programs, we can use a packaged_task to calculate some time intensive data which we don't have use for right away and it will not halt the program unless we try to access that data.

@@ -10,6 +10,7 @@
 #include <functional>
 #include <thread>
 #include <future>
+#include <cstring>
 #include "TreasureMap.h"
 
 using namespace std;
@@ -141,55 +142,60 @@ namespace sdds{
 
     size_t TreasureMap::findTreasure(char mark){
         size_t count = 0;
-
         // TODO: For part 2, comment this "for" loop and write the multihreaded version.
         /*
         for (size_t i = 0; i < rows; ++i){
             count += digForTreasure(map[i], mark);
         }
         */
-
-        auto countTreasure = [&count, mark](string input) {
-           count += digForTreasure(input, mark);
-        };
-        //std::packaged_task<size_t()> pt(digForTreasure(input, mark));
-     
         string firstthread;
         string secondthread;
         string thirdthread;
         string fourththread;
         // divide work into 4 evenly split ways
-        for (size_t i = 0; i < (rows/4); i++)
+        for (size_t i = 0; i < (rows / 4); i++)
         {
            firstthread += map[i];
         }
-        for (size_t i = rows/4; i < rows/2; i++)
+        for (size_t i = rows / 4; i < rows / 2; i++)
         {
            secondthread += map[i];
         }
-        for (size_t i = rows/2; i < (rows * 3/4); i++)
+        for (size_t i = rows / 2; i < (rows * 3 / 4); i++)
         {
            thirdthread += map[i];
         }
-        for (size_t i = (rows*3/4); i < rows; i++)
+        for (size_t i = (rows * 3 / 4); i < rows; i++)
         {
            fourththread += map[i];
         }
+        
+        packaged_task<size_t()> t1(bind(digForTreasure,firstthread, mark));
+        packaged_task<size_t()> t2(bind(digForTreasure,secondthread, mark));
+        packaged_task<size_t()> t3(bind(digForTreasure,thirdthread, mark));
+        packaged_task<size_t()> t4(bind(digForTreasure,fourththread, mark));
 
-        // concat the strings into 4 strings
-        // create 4 threads to parse each string
-        thread t1(countTreasure, firstthread);
-        thread t2(countTreasure, secondthread);
-        thread t3(countTreasure, thirdthread);
-        thread t4(countTreasure, fourththread);
+        auto res1 = t1.get_future();
+        auto res2 = t2.get_future();
+        auto res3 = t3.get_future();
+        auto res4 = t4.get_future();
 
-        t1.join();
-        t2.join();
-        t3.join();
-        t4.join();
-            // increment the shared count resource
-        // wait for each to finish
-        // return the the final count
+        thread thread1(move(t1));
+        thread thread2(move(t2));
+        thread thread3(move(t3));
+        thread thread4(move(t4));
+
+        thread1.join();
+        thread2.join();
+        thread3.join();
+        thread4.join();
+         
+        count += res1.get();
+        count += res2.get();
+        count += res3.get();
+        count += res4.get();
+
         return count;
     }
+
 }
