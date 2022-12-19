@@ -39,4 +39,4 @@ steady clock vs system clock
 		This is a clock that takes the system's time.
 		This clock may not be monotonic since most systems allow the time to be changed whenever the user decides.
 
-	The Steady clock is best for calculating intervals while the System clock is the only clock that can map timeinterval in C-style time.
+	The Steady clock is best for calculating intervals while the System clock is the only clock that can map timeinterval in C-style time. 
